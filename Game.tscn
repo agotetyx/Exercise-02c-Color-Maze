@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Obstacle/Maze.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Player.gd" type="Script" id=3]
+[ext_resource path="res://Player/player.png" type="Texture" id=4]
 
 [node name="Game" type="Node2D"]
 
@@ -22,3 +24,20 @@ collision_mask = 16
 polygon = PoolVector2Array( 0, 0, 0, 640, 640, 640, 640, 0, 32, 0, 32, -64, 704, -64, 704, 704, -64, 704, -64, -64, 32, -64, 32, 0 )
 
 [node name="Player_Area" type="Node2D" parent="."]
+position = Vector2( 96, 96 )
+
+[node name="Player" type="KinematicBody2D" parent="Player_Area"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Player_Area/Player"]
+position = Vector2( 0.148, 0.148 )
+texture = ExtResource( 4 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player_Area/Player/Sprite"]
+
+[node name="Reload" type="Timer" parent="Player_Area/Player"]
+wait_time = 2.0
+one_shot = true
+[connection signal="timeout" from="Player_Area/Player/Reload" to="Player_Area/Player" method="_on_Reload_timeout"]
